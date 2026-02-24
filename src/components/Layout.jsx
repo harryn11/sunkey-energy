@@ -31,23 +31,49 @@ export const Navbar = () => {
         { name: 'Protocol', href: isHome ? '#protocol' : '/#protocol' },
     ];
 
+    // Determine the theme
+    // White text only on home page when not scrolled.
+    // Otherwise, use dark (primary/moss) text.
+    const useWhiteTheme = isHome && !isScrolled;
+
     return (
-        <nav className={`fixed top-6 left-1/2 -translate-x-1/2 z-40 transition-all duration-500 ease-in-out w-[90%] max-w-4xl rounded-[2rem] px-6 py-4 flex items-center justify-between ${isScrolled ? 'bg-background/80 backdrop-blur-xl border border-primary/10 shadow-lg' : 'bg-transparent text-white'
+        <nav className={`fixed top-6 left-1/2 -translate-x-1/2 z-40 transition-all duration-500 ease-in-out w-[90%] max-w-4xl rounded-[2rem] px-6 py-4 flex items-center justify-between ${isScrolled
+            ? 'bg-background/80 backdrop-blur-xl border border-primary/10 shadow-lg text-primary'
+            : `bg-transparent ${useWhiteTheme ? 'text-white' : 'text-primary'}`
             }`}>
             <Link to="/" className="flex items-center">
-                <img src="/logo.png" alt="Sun Key Energy" className={`h-8 object-contain transition-all duration-500 ${isScrolled ? 'brightness-100 drop-shadow-sm' : 'brightness-0 invert drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]'}`} />
+                <img
+                    src="/logo.png"
+                    alt="Sun Key Energy"
+                    className={`h-8 object-contain transition-all duration-500 ${useWhiteTheme
+                        ? 'brightness-0 invert drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]'
+                        : 'brightness-100 drop-shadow-sm'
+                        }`}
+                />
             </Link>
 
             <div className="hidden md:flex items-center gap-8">
                 {navItems.map((item) => (
                     item.href.startsWith('#') ? (
-                        <a key={item.name} href={item.href} className={`text-sm font-medium tracking-wide transition-colors hover:-translate-y-[1px] ${isScrolled ? 'text-dark/70 hover:text-primary' : 'text-white/80 hover:text-white'
-                            }`}>
+                        <a
+                            key={item.name}
+                            href={item.href}
+                            className={`text-sm font-medium tracking-wide transition-colors hover:-translate-y-[1px] ${useWhiteTheme
+                                ? 'text-white/80 hover:text-white'
+                                : 'text-primary/70 hover:text-primary'
+                                }`}
+                        >
                             {item.name}
                         </a>
                     ) : (
-                        <Link key={item.name} to={item.href} className={`text-sm font-medium tracking-wide transition-colors hover:-translate-y-[1px] ${isScrolled ? 'text-dark/70 hover:text-primary' : 'text-white/80 hover:text-white'
-                            }`}>
+                        <Link
+                            key={item.name}
+                            to={item.href}
+                            className={`text-sm font-medium tracking-wide transition-colors hover:-translate-y-[1px] ${useWhiteTheme
+                                ? 'text-white/80 hover:text-white'
+                                : 'text-primary/70 hover:text-primary'
+                                }`}
+                        >
                             {item.name}
                         </Link>
                     )
@@ -55,14 +81,20 @@ export const Navbar = () => {
             </div>
 
             <div className="hidden md:block">
-                <button className={`magnetic-btn px-6 py-2.5 rounded-full text-sm font-bold transition-colors ${isScrolled ? 'bg-primary text-white hover:bg-dark' : 'bg-white text-dark hover:bg-white/90'
+                <button className={`magnetic-btn px-6 py-2.5 rounded-full text-sm font-bold transition-all ${useWhiteTheme
+                    ? 'bg-white text-dark hover:bg-white/90'
+                    : 'bg-primary text-white hover:bg-dark'
                     }`}>
                     Get a Free Quote
                 </button>
             </div>
 
             <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-                {mobileMenuOpen ? <X size={24} className={isScrolled ? 'text-primary' : 'text-white'} /> : <Menu size={24} className={isScrolled ? 'text-primary' : 'text-white'} />}
+                {mobileMenuOpen ? (
+                    <X size={24} className={useWhiteTheme ? 'text-white' : 'text-primary'} />
+                ) : (
+                    <Menu size={24} className={useWhiteTheme ? 'text-white' : 'text-primary'} />
+                )}
             </button>
 
             {mobileMenuOpen && (

@@ -59,7 +59,7 @@ const HRS = () => {
 
                         <div className="p-10 bg-primary rounded-[3rem] text-background shadow-xl">
                             <h4 className="font-heading font-bold text-2xl mb-4 text-white">Efficiency Upgrade</h4>
-                            <p className="text-background/60 mb-8 leading-relaxed">Optimize your building's thermal performance with our precision HRS solutions.</p>
+                            <p className="text-background/60 mb-8 leading-relaxed">Optimise your building's thermal performance with our precision HRS solutions.</p>
                             <button className="magnetic-btn w-full py-4 bg-accent text-white rounded-full font-bold flex items-center justify-center gap-2">
                                 Request an Efficiency Audit <ChevronRight size={18} />
                             </button>

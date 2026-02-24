@@ -12,7 +12,7 @@ const DiagnosticShuffler = () => {
     const [cards, setCards] = useState([
         { id: 1, text: "Grid Dependency: Minimal", value: "85% Reduction" },
         { id: 2, text: "Carbon Offset", value: "Active Tracking" },
-        { id: 3, text: "Monthly Bills", value: "Optimized" }
+        { id: 3, text: "Monthly Bills", value: "Optimised" }
     ]);
 
     useEffect(() => {
@@ -288,7 +288,7 @@ const Home = () => {
             </section>
 
             <section id="protocol" className="relative pb-32">
-                <ProtocolItem index={1} num="01" icon={Search} title="Diagnostic Consultation" desc="We analyze your current energy consumption, roof viability, and specific goals to architect a bespoke solar generation strategy." />
+                <ProtocolItem index={1} num="01" icon={Search} title="Diagnostic Consultation" desc="We analyse your current energy consumption, roof viability, and specific goals to architect a bespoke solar generation strategy." />
                 <ProtocolItem index={2} num="02" icon={Wrench} title="Precision Integration" desc="Our engineers deploy top-tier photovoltaic panels and storage systems with surgical precision, ensuring aesthetic and structural integrity." />
                 <ProtocolItem index={3} num="03" icon={Sun} title="System Activation" desc="Your personal micro-grid comes online. Monitor real-time telemetry and watch your reliance on external energy sources drop to zero." />
             </section>

@@ -2,14 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
-export const NoiseOverlay = () => (
-    <svg className="noise-overlay" xmlns="http://www.w3.org/2000/svg">
-        <filter id="noiseFilter">
-            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
-        </filter>
-        <rect width="100%" height="100%" filter="url(#noiseFilter)" />
-    </svg>
-);
+export const NoiseOverlay = () => {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    return (
+        <svg className="noise-overlay pointer-events-none transform-gpu" xmlns="http://www.w3.org/2000/svg">
+            <filter id="noiseFilter">
+                {/* Disable expensive turbulence on mobile */}
+                {!isMobile && <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />}
+            </filter>
+            <rect width="100%" height="100%" filter="url(#noiseFilter)" />
+        </svg>
+    );
+};
 
 export const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -21,7 +33,7 @@ export const Navbar = () => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50);
         };
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
@@ -37,7 +49,7 @@ export const Navbar = () => {
     const useWhiteTheme = isHome && !isScrolled;
 
     return (
-        <nav className={`fixed top-6 left-1/2 -translate-x-1/2 z-40 transition-all duration-500 ease-in-out w-[90%] max-w-4xl rounded-[2rem] px-6 py-4 flex items-center justify-between ${isScrolled
+        <nav className={`fixed top-6 left-1/2 -translate-x-1/2 z-40 transition-all duration-500 ease-in-out w-[90%] max-w-4xl rounded-[2rem] px-6 py-4 flex items-center justify-between will-change-transform transform-gpu ${isScrolled
             ? 'bg-background/80 backdrop-blur-xl border border-primary/10 shadow-lg text-primary'
             : `bg-transparent ${useWhiteTheme ? 'text-white' : 'text-primary'}`
             }`}>

@@ -9,8 +9,6 @@ gsap.registerPlugin(ScrollTrigger);
 // --- Component Fragments ---
 
 const DiagnosticShuffler = () => {
-    const [isVisible, setIsVisible] = useState(false);
-    const containerRef = useRef(null);
     const [cards, setCards] = useState([
         { id: 1, text: "Grid Dependency: Minimal", value: "85% Reduction" },
         { id: 2, text: "Carbon Offset", value: "Active Tracking" },
@@ -18,16 +16,6 @@ const DiagnosticShuffler = () => {
     ]);
 
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => setIsVisible(entry.isIntersecting),
-            { threshold: 0.1 }
-        );
-        if (containerRef.current) observer.observe(containerRef.current);
-        return () => observer.disconnect();
-    }, []);
-
-    useEffect(() => {
-        if (!isVisible) return;
         const interval = setInterval(() => {
             setCards(prev => {
                 const newCards = [...prev];
@@ -37,16 +25,16 @@ const DiagnosticShuffler = () => {
             });
         }, 3000);
         return () => clearInterval(interval);
-    }, [isVisible]);
+    }, []);
 
     return (
-        <div ref={containerRef} className="relative h-48 w-full flex items-center justify-center">
+        <div className="relative h-48 w-full flex items-center justify-center">
             {cards.map((card, i) => (
                 <div
                     key={card.id}
-                    className="absolute w-full max-w-[280px] bg-background border border-primary/20 rounded-3xl p-6 shadow-xl transition-[transform,opacity] duration-[800ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] will-change-transform"
+                    className="absolute w-full max-w-[280px] bg-background border border-primary/20 rounded-3xl p-6 shadow-xl transition-all duration-[800ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]"
                     style={{
-                        transform: `translateY(${i * 12}px) scale(${1 - i * 0.05}) translateZ(0)`,
+                        transform: `translateY(${i * 12}px) scale(${1 - i * 0.05})`,
                         zIndex: 10 - i,
                         opacity: 1 - i * 0.3
                     }}
@@ -65,21 +53,9 @@ const DiagnosticShuffler = () => {
 
 const TelemetryTypewriter = () => {
     const [text, setText] = useState('');
-    const [isVisible, setIsVisible] = useState(false);
-    const containerRef = useRef(null);
     const fullText = "INITIALIZING INDEPENDENCE PROTOCOL...\n> GRID DETACHMENT INITIATED\n> SOLAR YIELD: OPTIMAL\n> STORAGE SYSTEMS: ONLINE\n> YOU ARE NOW YOUR OWN UTILITY.";
 
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => setIsVisible(entry.isIntersecting),
-            { threshold: 0.1 }
-        );
-        if (containerRef.current) observer.observe(containerRef.current);
-        return () => observer.disconnect();
-    }, []);
-
-    useEffect(() => {
-        if (!isVisible) return;
         let currentIndex = 0;
         const interval = setInterval(() => {
             if (currentIndex <= fullText.length) {
@@ -88,12 +64,12 @@ const TelemetryTypewriter = () => {
             } else {
                 clearInterval(interval);
             }
-        }, 75); // Increased from 50ms
+        }, 50);
         return () => clearInterval(interval);
-    }, [isVisible]);
+    }, []);
 
     return (
-        <div ref={containerRef} className="bg-[#1A1A1A] rounded-3xl p-6 h-48 w-full border border-primary/20 relative overflow-hidden flex flex-col">
+        <div className="bg-[#1A1A1A] rounded-3xl p-6 h-48 w-full border border-primary/20 relative overflow-hidden flex flex-col">
             <div className="flex items-center justify-between mb-4 border-b border-white/10 pb-2">
                 <span className="text-[10px] font-mono uppercase tracking-widest text-background/50">Live Feed</span>
                 <span className="flex h-2 w-2 relative">
@@ -151,17 +127,17 @@ const Hero = () => {
     }, []);
 
     return (
-        <section ref={container} className="relative h-[100dvh] w-full overflow-hidden bg-dark transform-gpu">
-            <div className="absolute inset-0 z-0 will-change-transform">
+        <section ref={container} className="relative h-[100dvh] w-full overflow-hidden bg-dark">
+            <div className="absolute inset-0 z-0">
                 <img
                     src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?q=80&w=2072&auto=format&fit=crop"
                     alt="Solar energy landscape"
-                    className="w-full h-full object-cover opacity-60 mix-blend-luminosity will-change-transform"
+                    className="w-full h-full object-cover opacity-60 mix-blend-luminosity"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-dark via-primary/40 to-transparent"></div>
             </div>
 
-            <div className="relative z-10 h-full flex flex-col justify-end pb-24 px-6 md:px-16 max-w-7xl mx-auto transform-gpu">
+            <div className="relative z-10 h-full flex flex-col justify-end pb-24 px-6 md:px-16 max-w-7xl mx-auto">
                 <div className="max-w-4xl">
                     <p className="hero-elem text-accent font-mono text-sm uppercase tracking-widest mb-6 flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
